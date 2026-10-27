@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     :root {
@@ -666,6 +667,68 @@
       color: var(--primary-hover);
     }
 
+    /* Hindi Valmiki Ramayan Screenshot Footer / Watermark */
+    .verse-screenshot-watermark {
+      margin-top: 1rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg-highlight);
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      user-select: text;
+    }
+
+    .watermark-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-devanagari);
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.96rem;
+      letter-spacing: 0.02em;
+    }
+
+    .watermark-om {
+      font-size: 1.15rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .watermark-title {
+      font-weight: 700;
+    }
+
+    .watermark-sep {
+      color: var(--text-subtle);
+      font-weight: 400;
+    }
+
+    .watermark-kanda {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .watermark-sub {
+      font-family: var(--font-devanagari);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .watermark-num {
+      opacity: 0.7;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+    }
+
     /* Sticky Mobile Bottom Navigation Bar */
     .mobile-bottom-bar {
       position: fixed;
@@ -1000,6 +1063,23 @@
       { order: 7, name: "Uttara Kanda", folder: "07_Uttara_Kanda", sargas: 111, verses: 3463 }
     ];
 
+    // Hindi Kanda names mapping
+    const HINDI_KANDA_MAP = {
+      "Bala Kanda": "बालकाण्ड",
+      "Ayodhya Kanda": "अयोध्याकाण्ड",
+      "Aranya Kanda": "अरण्यकाण्ड",
+      "Kishkindha Kanda": "किष्किन्धाकाण्ड",
+      "Sundara Kanda": "सुन्दरकाण्ड",
+      "Yuddha Kanda": "युद्धकाण्ड",
+      "Uttara Kanda": "उत्तरकाण्ड"
+    };
+
+    // Helper: Convert English numbers to Devanagari numerals
+    function toDevanagariDigits(num) {
+      const devDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+      return String(num).replace(/[0-9]/g, d => devDigits[d]);
+    }
+
     // State
     let currentKandaIndex = 0;
     let currentSarga = 1;
@@ -1206,6 +1286,9 @@
     function createVerseCardHtml(v) {
       const verseRef = `${currentKandaIndex + 1}.${v.sarga}.${v.shloka}`;
       const hasComments = v.comments && v.comments.trim();
+      const hindiKanda = HINDI_KANDA_MAP[v.kanda] || v.kanda;
+      const sargaDev = toDevanagariDigits(v.sarga);
+      const shlokaDev = toDevanagariDigits(v.shloka);
 
       return `
         <article class="verse-card" id="verse-${v.shloka}">
@@ -1216,6 +1299,9 @@
             <div class="verse-actions">
               <button class="btn-copy" onclick="copyVerseText('${verseRef}', ${v.shloka}, this)" title="Copy Sanskrit text and meaning">
                 📋 Copy
+              </button>
+              <button class="btn-copy" onclick="captureVerseCard(${v.shloka}, this)" title="Save card image for sharing / screenshot">
+                📸 Image
               </button>
             </div>
           </div>
@@ -1254,23 +1340,116 @@
               <strong>Context / Note:</strong> ${escapeHtml(v.comments)}
             </div>
           ` : ""}
+
+          <!-- Hindi Valmiki Ramayan Reference for Screenshots -->
+          <div class="verse-screenshot-watermark">
+            <div class="watermark-main">
+              <span class="watermark-om">ॐ</span>
+              <span class="watermark-title">वाल्मीकि रामायण</span>
+              <span class="watermark-sep">|</span>
+              <span class="watermark-kanda">${hindiKanda}</span>
+            </div>
+            <div class="watermark-sub">
+              सर्ग ${sargaDev} • श्लोक ${shlokaDev} <span class="watermark-num">(${v.sarga}.${v.shloka})</span>
+            </div>
+          </div>
         </article>
       `;
     }
 
-    // Copy to clipboard
+    // Capture verse card as high-res image (with Hindi watermark for screenshot sharing)
+    window.captureVerseCard = async function(shlokaNum, btnEl) {
+      const cardEl = document.getElementById(`verse-${shlokaNum}`);
+      if (!cardEl) return;
+
+      const originalText = btnEl.textContent;
+      btnEl.textContent = "⏳ Rendering...";
+      btnEl.disabled = true;
+
+      try {
+        if (typeof html2canvas === "function") {
+          // Temporarily hide action buttons for clean image capture
+          const actionsEl = cardEl.querySelector(".verse-actions");
+          if (actionsEl) actionsEl.style.visibility = "hidden";
+
+          const canvas = await html2canvas(cardEl, {
+            scale: 2, // High DPI for crisp screenshot
+            useCORS: true,
+            backgroundColor: getComputedStyle(cardEl).backgroundColor || null
+          });
+
+          if (actionsEl) actionsEl.style.visibility = "";
+
+          const k = KANDAS[currentKandaIndex];
+          const filename = `Valmiki_Ramayana_${k.name.replace(/\s+/g, '_')}_Sarga_${currentSarga}_Shloka_${shlokaNum}.png`;
+
+          canvas.toBlob(async (blob) => {
+            if (!blob) {
+              downloadCanvas(canvas, filename);
+              btnEl.textContent = "✓ Saved!";
+              setTimeout(() => { btnEl.textContent = originalText; btnEl.disabled = false; }, 1800);
+              return;
+            }
+
+            const file = new File([blob], filename, { type: "image/png" });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              try {
+                await navigator.share({
+                  files: [file],
+                  title: `वाल्मीकि रामायण - ${k.name}`,
+                  text: `वाल्मीकि रामायण - ${k.name}, सर्ग ${currentSarga}, श्लोक ${shlokaNum}`
+                });
+                btnEl.textContent = "✓ Shared!";
+              } catch (e) {
+                downloadCanvas(canvas, filename);
+                btnEl.textContent = "✓ Saved!";
+              }
+            } else {
+              downloadCanvas(canvas, filename);
+              btnEl.textContent = "✓ Saved!";
+            }
+            setTimeout(() => { btnEl.textContent = originalText; btnEl.disabled = false; }, 1800);
+          });
+        } else {
+          // Fallback if canvas library isn't loaded
+          window.scrollTo({ top: cardEl.offsetTop - 80, behavior: "smooth" });
+          btnEl.textContent = "✓ Ready to screenshot";
+          setTimeout(() => { btnEl.textContent = originalText; btnEl.disabled = false; }, 2000);
+        }
+      } catch (err) {
+        console.error("Screenshot error:", err);
+        btnEl.textContent = "⚠️ Screenshot with phone";
+        setTimeout(() => { btnEl.textContent = originalText; btnEl.disabled = false; }, 2500);
+      }
+    };
+
+    function downloadCanvas(canvas, filename) {
+      const link = document.createElement("a");
+      link.download = filename;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+
+    // Copy to clipboard (with Hindi citation included)
     window.copyVerseText = function(ref, shlokaNum, btnEl) {
       const v = currentVerses.find(item => item.shloka === shlokaNum);
       if (!v) return;
 
+      const hindiKanda = HINDI_KANDA_MAP[v.kanda] || v.kanda;
+      const sargaDev = toDevanagariDigits(v.sarga);
+      const shlokaDev = toDevanagariDigits(v.shloka);
+
       const text = [
-        `Valmiki Ramayana - ${v.kanda}, Sarga ${v.sarga}, Shloka ${v.shloka} (${ref})`,
+        `॥ वाल्मीकि रामायण • ${hindiKanda} (सर्ग ${sargaDev}, श्लोक ${shlokaDev}) ॥`,
+        `[Valmiki Ramayana - ${v.kanda}, Sarga ${v.sarga}, Shloka ${v.shloka}]`,
         "",
         v.shloka_text,
         "",
         v.transliteration ? `IAST: ${v.transliteration}` : "",
         v.translation ? `Word meanings: ${v.translation}` : "",
-        v.explanation ? `Explanation: ${v.explanation}` : ""
+        v.explanation ? `Explanation: ${v.explanation}` : "",
+        "",
+        "— वाल्मीकि रामायण"
       ].filter(Boolean).join("\n");
 
       navigator.clipboard.writeText(text).then(() => {
