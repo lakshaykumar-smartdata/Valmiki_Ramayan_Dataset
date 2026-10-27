@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#b45309" id="metaThemeColor">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>वाल्मीकि रामायण | Valmiki Ramayana Reader</title>
-  <meta name="description" content="Explore and read the complete Valmiki Ramayana sarga-by-sarga with Sanskrit shlokas, transliteration, word-by-word meanings, and English explanations.">
+  <meta name="description" content="Mobile-friendly, responsive reader for the complete Valmiki Ramayana with Sanskrit shlokas, transliteration, word-by-word meanings, and English explanations.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,7 +18,7 @@
       --font-devanagari: 'Noto Serif Devanagari', 'Martel', 'Siddhanta', serif;
       --font-title: 'Cinzel', serif;
 
-      /* Light Theme (Vedic warm theme) */
+      /* Light Theme (Warm Vedic) */
       --bg-base: #fdfaf6;
       --bg-surface: #ffffff;
       --bg-card: #ffffff;
@@ -34,9 +37,10 @@
       --shloka-text: #872808;
       --tag-bg: #fef3c7;
       --tag-text: #92400e;
+      --bottom-bar-bg: rgba(255, 255, 255, 0.94);
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
     }
 
     [data-theme="dark"] {
@@ -58,6 +62,7 @@
       --shloka-text: #fcd34d;
       --tag-bg: #352516;
       --tag-text: #fbbf24;
+      --bottom-bar-bg: rgba(26, 23, 29, 0.94);
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
       --shadow-lg: 0 10px 25px rgba(0,0,0,0.6);
@@ -67,6 +72,11 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -78,13 +88,15 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
     }
 
     /* Container */
     .container {
-      max-width: 1100px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 0 1.25rem;
+      padding: 0 1rem;
       width: 100%;
     }
 
@@ -96,65 +108,80 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      padding-top: env(safe-area-inset-top, 0px);
     }
 
     .header-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.85rem 0;
-      gap: 1rem;
+      padding: 0.65rem 0;
+      gap: 0.5rem;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.6rem;
       text-decoration: none;
       color: inherit;
+      min-width: 0;
     }
 
     .brand-icon {
-      font-size: 1.85rem;
+      font-size: 1.6rem;
       line-height: 1;
+      flex-shrink: 0;
       filter: drop-shadow(0 2px 4px var(--primary-glow));
+    }
+
+    .brand-text {
+      min-width: 0;
     }
 
     .brand-text h1 {
       font-family: var(--font-title);
-      font-size: 1.35rem;
+      font-size: clamp(1.05rem, 3.8vw, 1.35rem);
       font-weight: 700;
       color: var(--primary);
-      letter-spacing: 0.03em;
-      line-height: 1.2;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .brand-text .subtext {
-      font-size: 0.8rem;
+      font-size: clamp(0.7rem, 2.4vw, 0.78rem);
       color: var(--text-muted);
       font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.4rem;
+      flex-shrink: 0;
     }
 
     .btn-icon {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 0.45rem 0.75rem;
+      padding: 0.4rem 0.65rem;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.3rem;
       transition: all 0.2s ease;
       text-decoration: none;
+      min-height: 36px;
     }
 
     .btn-icon:hover {
@@ -167,39 +194,38 @@
     .kanda-nav-wrapper {
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border-color);
-      padding: 0.4rem 0;
+      padding: 0.35rem 0;
       overflow-x: auto;
-      scrollbar-width: thin;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
 
     .kanda-nav-wrapper::-webkit-scrollbar {
-      height: 4px;
-    }
-    .kanda-nav-wrapper::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 2px;
+      display: none;
     }
 
     .kanda-tabs {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       white-space: nowrap;
-      padding: 0.2rem 0;
+      padding: 0.15rem 0.2rem;
     }
 
     .kanda-tab {
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
-      padding: 0.5rem 0.9rem;
+      padding: 0.45rem 0.75rem;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       transition: all 0.2s ease;
+      min-height: 38px;
+      flex-shrink: 0;
     }
 
     .kanda-tab:hover {
@@ -215,8 +241,8 @@
     }
 
     .kanda-tab .count-badge {
-      font-size: 0.7rem;
-      padding: 0.1rem 0.4rem;
+      font-size: 0.68rem;
+      padding: 0.1rem 0.35rem;
       border-radius: 10px;
       background: rgba(0, 0, 0, 0.1);
     }
@@ -224,11 +250,11 @@
       background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Main Toolbar */
+    /* Toolbar Section */
     .toolbar-section {
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border-color);
-      padding: 0.85rem 0;
+      padding: 0.75rem 0;
     }
 
     .toolbar-grid {
@@ -236,28 +262,33 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.8rem;
+      gap: 0.65rem;
     }
 
     .sarga-controls {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+      flex: 1 1 auto;
+      min-width: 260px;
     }
 
     .btn-nav {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 0.5rem 0.85rem;
+      padding: 0.5rem 0.8rem;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: center;
+      gap: 0.3rem;
       transition: all 0.2s ease;
+      min-height: 40px;
+      flex-shrink: 0;
     }
 
     .btn-nav:hover:not(:disabled) {
@@ -267,33 +298,43 @@
     }
 
     .btn-nav:disabled {
-      opacity: 0.4;
+      opacity: 0.35;
       cursor: not-allowed;
     }
 
     .sarga-select-wrap {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
+      flex: 1;
     }
 
     .sarga-select-wrap label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-muted);
+      white-space: nowrap;
     }
 
     select.sarga-dropdown {
       background: var(--bg-base);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 0.5rem 0.75rem;
+      padding: 0.5rem 0.65rem;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       outline: none;
-      min-width: 140px;
+      width: 100%;
+      min-height: 40px;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23b45309%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.7rem top 50%;
+      background-size: 0.65rem auto;
+      padding-right: 1.8rem;
     }
 
     select.sarga-dropdown:focus {
@@ -304,7 +345,7 @@
     .view-toggles {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       flex-wrap: wrap;
     }
 
@@ -312,13 +353,16 @@
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       color: var(--text-muted);
-      padding: 0.4rem 0.65rem;
+      padding: 0.35rem 0.6rem;
       border-radius: 6px;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       user-select: none;
       transition: all 0.2s ease;
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
     }
 
     .toggle-chip:hover {
@@ -338,16 +382,19 @@
       border: 1px solid var(--border-color);
       border-radius: 6px;
       overflow: hidden;
+      min-height: 34px;
     }
 
     .font-btn {
       background: transparent;
       border: none;
       color: var(--text-main);
-      padding: 0.4rem 0.6rem;
-      font-size: 0.85rem;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
+      min-height: 34px;
+      min-width: 34px;
     }
 
     .font-btn:hover {
@@ -355,31 +402,31 @@
       color: var(--primary);
     }
 
-    /* Search & Stats Bar */
+    /* Filter & Search Bar */
     .filter-bar {
-      margin-top: 1rem;
+      margin-top: 0.65rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.8rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
     }
 
     .search-input-wrap {
       position: relative;
-      flex: 1;
-      max-width: 380px;
+      flex: 1 1 240px;
     }
 
     .search-input {
       width: 100%;
-      background: var(--bg-surface);
+      background: var(--bg-base);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 0.5rem 0.75rem 0.5rem 2rem;
+      padding: 0.45rem 2rem 0.45rem 2rem;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       outline: none;
+      min-height: 38px;
       transition: border-color 0.2s ease;
     }
 
@@ -394,28 +441,47 @@
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-subtle);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       pointer-events: none;
     }
 
+    .search-clear-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      font-size: 1rem;
+      cursor: pointer;
+      display: none;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .search-clear-btn:hover {
+      color: var(--text-main);
+    }
+
     .sarga-summary-pill {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       font-weight: 500;
+      white-space: nowrap;
     }
 
     /* Content Area */
     main {
       flex: 1;
-      padding: 1.5rem 0 3rem;
+      padding: 1.25rem 0 2rem;
     }
 
     .sarga-header-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 1.35rem 1.5rem;
-      margin-bottom: 1.25rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
       box-shadow: var(--shadow-sm);
       border-left: 5px solid var(--primary);
     }
@@ -426,12 +492,12 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
     }
 
     .sarga-title {
       font-family: var(--font-title);
-      font-size: 1.4rem;
+      font-size: clamp(1.15rem, 4vw, 1.35rem);
       font-weight: 700;
       color: var(--primary);
     }
@@ -439,35 +505,35 @@
     .sarga-badge {
       background: var(--tag-bg);
       color: var(--tag-text);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      padding: 0.25rem 0.65rem;
+      padding: 0.2rem 0.55rem;
       border-radius: 12px;
     }
 
     .sarga-comment {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
       background: var(--bg-highlight);
       border-left: 3px solid var(--primary);
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.85rem;
       border-radius: 6px;
-      margin-top: 0.75rem;
+      margin-top: 0.65rem;
       line-height: 1.5;
     }
 
-    /* Verse Cards */
+    /* Verses List */
     .verses-list {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
     .verse-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 1.4rem 1.5rem;
+      padding: 1.15rem 1.25rem;
       box-shadow: var(--shadow-sm);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       position: relative;
@@ -481,25 +547,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 0.85rem;
-      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.45rem;
       border-bottom: 1px dashed var(--border-color);
+      gap: 0.5rem;
     }
 
     .verse-num {
       font-family: var(--font-title);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: var(--primary);
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
     }
 
     .verse-actions {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
     }
 
     .btn-copy {
@@ -507,11 +574,12 @@
       border: 1px solid var(--border-color);
       color: var(--text-subtle);
       border-radius: 6px;
-      padding: 0.25rem 0.55rem;
-      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
+      min-height: 28px;
     }
 
     .btn-copy:hover {
@@ -519,52 +587,59 @@
       color: var(--text-main);
     }
 
-    /* Shloka Text */
+    /* Shloka Box */
     .shloka-box {
       background: var(--bg-highlight);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 1rem;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.85rem;
       text-align: center;
     }
 
     .shloka-sanskrit {
       font-family: var(--font-devanagari);
-      font-size: var(--devanagari-font-size, 1.45rem);
+      font-size: var(--devanagari-font-size, clamp(1.22rem, 4.4vw, 1.45rem));
       font-weight: 600;
       color: var(--shloka-text);
-      line-height: 1.8;
-      word-spacing: 0.1em;
+      line-height: 1.85;
+      word-spacing: 0.08em;
       letter-spacing: 0.01em;
       user-select: text;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     /* Transliteration */
     .verse-transliteration {
       font-style: italic;
       color: var(--text-muted);
-      font-size: 0.98rem;
+      font-size: 0.92rem;
       line-height: 1.6;
-      margin-bottom: 0.9rem;
-      padding: 0 0.25rem;
+      margin-bottom: 0.75rem;
+      padding: 0 0.15rem;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     /* Word Translation */
     .verse-translation-section {
-      margin-bottom: 0.9rem;
-      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.75rem;
+      padding: 0.6rem 0.75rem;
       background: var(--bg-secondary);
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       line-height: 1.6;
       color: var(--text-muted);
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
-    .verse-translation-section .label {
+    .verse-translation-section .label,
+    .verse-explanation-section .label {
       font-weight: 700;
       color: var(--primary);
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       display: block;
@@ -573,59 +648,129 @@
 
     /* Explanation */
     .verse-explanation-section {
-      font-size: 1rem;
-      line-height: 1.65;
+      font-size: 0.95rem;
+      line-height: 1.6;
       color: var(--text-main);
-      padding: 0.25rem 0.25rem 0;
-    }
-
-    .verse-explanation-section .label {
-      font-weight: 700;
-      color: var(--primary);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      display: block;
-      margin-bottom: 0.2rem;
+      padding: 0.15rem 0.15rem 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     /* Comments Section */
     .verse-comments-section {
-      margin-top: 0.85rem;
-      padding: 0.65rem 0.85rem;
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.75rem;
       background: var(--primary-light);
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--primary-hover);
+    }
+
+    /* Sticky Mobile Bottom Navigation Bar */
+    .mobile-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bottom-bar-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+      padding: 0.45rem 1rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .mobile-bottom-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      min-height: 42px;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+
+    .mobile-bottom-btn:hover:not(:disabled) {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .mobile-bottom-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .mobile-sarga-indicator {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 0 0.4rem;
+      white-space: nowrap;
+      text-align: center;
+      cursor: pointer;
+      min-width: 90px;
+    }
+
+    .btn-top {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      min-height: 42px;
+      min-width: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-top:hover {
+      background: var(--primary-light);
+      color: var(--primary);
     }
 
     /* Loading Spinner */
     .loading-state {
       text-align: center;
-      padding: 4rem 1rem;
+      padding: 3.5rem 1rem;
       color: var(--text-muted);
     }
 
     .spinner {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border: 3px solid var(--border-color);
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
+      margin: 0 auto 0.85rem;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    /* Empty state */
     .empty-state {
       background: var(--bg-card);
       border: 1px dashed var(--border-color);
       border-radius: 12px;
-      padding: 3rem 1.5rem;
+      padding: 2.5rem 1.25rem;
       text-align: center;
       color: var(--text-muted);
     }
@@ -634,8 +779,8 @@
     footer {
       background: var(--bg-surface);
       border-top: 1px solid var(--border-color);
-      padding: 1.5rem 0;
-      font-size: 0.85rem;
+      padding: 1.25rem 0;
+      font-size: 0.82rem;
       color: var(--text-muted);
       margin-top: auto;
     }
@@ -645,13 +790,13 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     .footer-links {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.85rem;
     }
 
     .footer-links a {
@@ -659,39 +804,55 @@
       text-decoration: none;
       font-weight: 600;
     }
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        align-items: flex-start;
+    /* Mobile Media Queries */
+    @media (max-width: 600px) {
+      .container {
+        padding: 0 0.75rem;
       }
-      .header-actions {
-        width: 100%;
-        justify-content: space-between;
+      .brand-icon {
+        font-size: 1.4rem;
       }
       .toolbar-grid {
         flex-direction: column;
         align-items: stretch;
       }
       .sarga-controls {
+        width: 100%;
+      }
+      .view-toggles {
+        width: 100%;
         justify-content: space-between;
       }
-      .search-input-wrap {
-        max-width: 100%;
+      .toggle-chip {
+        flex: 1 1 auto;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.72rem;
+        padding: 0.3rem 0.4rem;
       }
-      .shloka-sanskrit {
-        font-size: 1.25rem;
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .sarga-summary-pill {
+        text-align: center;
+      }
+      .verse-card {
+        padding: 0.95rem 1rem;
+      }
+      .shloka-box {
+        padding: 0.75rem 0.85rem;
+      }
+      .verse-card-header {
+        flex-wrap: wrap;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Top Header -->
   <header>
     <div class="container header-content">
       <a href="#" class="brand" onclick="window.location.reload(); return false;">
@@ -703,17 +864,17 @@
       </a>
 
       <div class="header-actions">
-        <button id="themeToggleBtn" class="btn-icon" title="Toggle Light/Dark Theme">
+        <button id="themeToggleBtn" class="btn-icon" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
           <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
         </button>
-        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset" target="_blank" rel="noopener" class="btn-icon">
-          <span>⭐</span> GitHub
+        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset" target="_blank" rel="noopener" class="btn-icon" title="GitHub Repository">
+          <span>⭐</span> <span class="hide-mobile">GitHub</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Kanda Tabs -->
+  <!-- Kanda Tabs (Horizontally scrollable on mobile) -->
   <div class="kanda-nav-wrapper">
     <div class="container">
       <div id="kandaTabs" class="kanda-tabs" role="tablist">
@@ -722,11 +883,11 @@
     </div>
   </div>
 
-  <!-- Sarga Navigation & View Controls -->
+  <!-- Sarga Controls & View Toggles -->
   <section class="toolbar-section">
     <div class="container">
       <div class="toolbar-grid">
-        <!-- Sarga Prev/Next/Select -->
+        <!-- Sarga Selection -->
         <div class="sarga-controls">
           <button id="prevSargaBtn" class="btn-nav" title="Previous Sarga (Left Arrow)">
             ◀ Prev
@@ -734,7 +895,7 @@
           
           <div class="sarga-select-wrap">
             <label for="sargaSelect">Sarga:</label>
-            <select id="sargaSelect" class="sarga-dropdown">
+            <select id="sargaSelect" class="sarga-dropdown" aria-label="Select Sarga">
               <!-- Sarga options -->
             </select>
           </div>
@@ -744,21 +905,21 @@
           </button>
         </div>
 
-        <!-- View Display Toggles & Font Resizer -->
+        <!-- Display Toggles & Font Size Controls -->
         <div class="view-toggles">
           <span class="toggle-chip active" id="toggleTranslit" data-target="transliteration">
-            Transliteration
+            Translit
           </span>
           <span class="toggle-chip active" id="toggleTranslation" data-target="translation">
-            Word Meanings
+            Meanings
           </span>
           <span class="toggle-chip active" id="toggleExplanation" data-target="explanation">
             Explanation
           </span>
           
           <div class="font-size-ctrls" title="Adjust Sanskrit Font Size">
-            <button class="font-btn" id="fontDecBtn" title="Decrease font size">A-</button>
-            <button class="font-btn" id="fontIncBtn" title="Increase font size">A+</button>
+            <button class="font-btn" id="fontDecBtn" title="Decrease font size" aria-label="Decrease font size">A-</button>
+            <button class="font-btn" id="fontIncBtn" title="Increase font size" aria-label="Increase font size">A+</button>
           </div>
         </div>
       </div>
@@ -768,6 +929,7 @@
         <div class="search-input-wrap">
           <span class="search-icon">🔍</span>
           <input type="text" id="verseSearchInput" class="search-input" placeholder="Search verses in this sarga...">
+          <button id="searchClearBtn" class="search-clear-btn" title="Clear search" aria-label="Clear search">✕</button>
         </div>
         <div id="sargaStatsText" class="sarga-summary-pill">
           Loading verses...
@@ -776,9 +938,9 @@
     </div>
   </section>
 
-  <!-- Main Content -->
+  <!-- Main Shloka Content -->
   <main class="container">
-    <!-- Sarga Title / Summary Card -->
+    <!-- Sarga Summary Header -->
     <div id="sargaHeaderCard" class="sarga-header-card" style="display: none;">
       <div class="sarga-title-line">
         <h2 id="sargaTitle" class="sarga-title">Bala Kanda — Sarga 1</h2>
@@ -789,13 +951,28 @@
 
     <!-- Verses Container -->
     <div id="versesList" class="verses-list">
-      <!-- Loading State -->
       <div class="loading-state">
         <div class="spinner"></div>
         <p>Loading Valmiki Ramayana shlokas...</p>
       </div>
     </div>
   </main>
+
+  <!-- Sticky Bottom Navigation Bar for Mobile Thumb Navigation -->
+  <aside class="mobile-bottom-bar" aria-label="Quick Sarga Navigation">
+    <button id="bottomPrevBtn" class="mobile-bottom-btn" title="Previous Sarga">
+      ◀ Prev
+    </button>
+    <div id="bottomSargaIndicator" class="mobile-sarga-indicator" title="Click to scroll to top">
+      Sarga 1
+    </div>
+    <button id="bottomNextBtn" class="mobile-bottom-btn" title="Next Sarga">
+      Next ▶
+    </button>
+    <button id="scrollTopBtn" class="btn-top" title="Scroll to Top" aria-label="Scroll to top">
+      ↑
+    </button>
+  </aside>
 
   <!-- Footer -->
   <footer>
@@ -806,7 +983,7 @@
       <div class="footer-links">
         <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset/tree/main/data" target="_blank" rel="noopener">Browse Data</a>
         <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset/blob/main/README.md" target="_blank" rel="noopener">Documentation</a>
-        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset" target="_blank" rel="noopener">GitHub Repo</a>
+        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </footer>
@@ -824,8 +1001,8 @@
     ];
 
     // State
-    let currentKandaIndex = 0; // 0-based index in KANDAS
-    let currentSarga = 1;     // 1-based sarga number
+    let currentKandaIndex = 0;
+    let currentSarga = 1;
     let currentVerses = [];
     let currentSearchTerm = "";
     let devanagariFontSize = 1.45; // rem
@@ -842,6 +1019,10 @@
     const sargaSelectEl = document.getElementById("sargaSelect");
     const prevSargaBtn = document.getElementById("prevSargaBtn");
     const nextSargaBtn = document.getElementById("nextSargaBtn");
+    const bottomPrevBtn = document.getElementById("bottomPrevBtn");
+    const bottomNextBtn = document.getElementById("bottomNextBtn");
+    const bottomSargaIndicator = document.getElementById("bottomSargaIndicator");
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
     const versesListEl = document.getElementById("versesList");
     const sargaHeaderCardEl = document.getElementById("sargaHeaderCard");
     const sargaTitleEl = document.getElementById("sargaTitle");
@@ -849,13 +1030,15 @@
     const sargaCommentTextEl = document.getElementById("sargaCommentText");
     const sargaStatsTextEl = document.getElementById("sargaStatsText");
     const verseSearchInputEl = document.getElementById("verseSearchInput");
+    const searchClearBtn = document.getElementById("searchClearBtn");
     const themeToggleBtn = document.getElementById("themeToggleBtn");
     const themeIcon = document.getElementById("themeIcon");
     const themeText = document.getElementById("themeText");
     const fontIncBtn = document.getElementById("fontIncBtn");
     const fontDecBtn = document.getElementById("fontDecBtn");
+    const metaThemeColor = document.getElementById("metaThemeColor");
 
-    // Initialize Kanda tabs
+    // Initialize Kanda Tabs with automatic center-scrolling for active tab
     function initKandaTabs() {
       kandaTabsEl.innerHTML = "";
       KANDAS.forEach((k, idx) => {
@@ -873,6 +1056,14 @@
         });
         kandaTabsEl.appendChild(btn);
       });
+      scrollActiveTabIntoView();
+    }
+
+    function scrollActiveTabIntoView() {
+      const activeTab = kandaTabsEl.querySelector(".kanda-tab.active");
+      if (activeTab) {
+        activeTab.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
     }
 
     // Populate Sarga Dropdown
@@ -891,8 +1082,15 @@
 
     function updateNavButtons() {
       const k = KANDAS[currentKandaIndex];
-      prevSargaBtn.disabled = (currentKandaIndex === 0 && currentSarga === 1);
-      nextSargaBtn.disabled = (currentKandaIndex === KANDAS.length - 1 && currentSarga === k.sargas);
+      const isFirst = (currentKandaIndex === 0 && currentSarga === 1);
+      const isLast = (currentKandaIndex === KANDAS.length - 1 && currentSarga === k.sargas);
+
+      prevSargaBtn.disabled = isFirst;
+      bottomPrevBtn.disabled = isFirst;
+      nextSargaBtn.disabled = isLast;
+      bottomNextBtn.disabled = isLast;
+
+      bottomSargaIndicator.textContent = `${k.name.split(" ")[0]} · S ${currentSarga}`;
     }
 
     // Select Kanda and Sarga
@@ -900,15 +1098,16 @@
       currentKandaIndex = kandaIdx;
       currentSarga = sargaNum;
 
-      // Update Tab Styles
       const tabs = kandaTabsEl.querySelectorAll(".kanda-tab");
       tabs.forEach((tab, idx) => {
         tab.classList.toggle("active", idx === currentKandaIndex);
       });
 
+      scrollActiveTabIntoView();
       populateSargaDropdown();
       loadSargaData();
       updateUrlHash();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     // Load Sarga JSON
@@ -927,7 +1126,7 @@
       try {
         const res = await fetch(url);
         if (!res.ok) {
-          throw new Error(`HTTP Error ${res.status}: Failed to load ${url}`);
+          throw new Error(`HTTP ${res.status}: Failed to load ${url}`);
         }
         const data = await res.json();
         currentVerses = data;
@@ -947,14 +1146,13 @@
       }
     }
 
-    // Render Sarga Header / Summary
+    // Render Sarga Header
     function renderSargaHeader() {
       const k = KANDAS[currentKandaIndex];
       sargaHeaderCardEl.style.display = "block";
       sargaTitleEl.textContent = `${k.name} — Sarga ${currentSarga}`;
       sargaBadgeEl.textContent = `${currentVerses.length} Shlokas`;
 
-      // Check if first shloka has sarga opener commentary
       const firstWithComment = currentVerses.find(v => v.comments && v.comments.trim());
       if (firstWithComment && firstWithComment.comments) {
         sargaCommentTextEl.style.display = "block";
@@ -969,9 +1167,9 @@
     function updateStatsBar(displayedCount) {
       const k = KANDAS[currentKandaIndex];
       if (currentSearchTerm) {
-        sargaStatsTextEl.textContent = `Showing ${displayedCount} of ${currentVerses.length} verses matching "${currentSearchTerm}"`;
+        sargaStatsTextEl.textContent = `${displayedCount} of ${currentVerses.length} verses matching "${currentSearchTerm}"`;
       } else {
-        sargaStatsTextEl.textContent = `${k.name} • Sarga ${currentSarga} of ${k.sargas} • ${currentVerses.length} Verses`;
+        sargaStatsTextEl.textContent = `${k.name} • Sarga ${currentSarga}/${k.sargas} • ${currentVerses.length} Verses`;
       }
     }
 
@@ -1016,7 +1214,7 @@
               <span>🕉️</span> Shloka ${v.shloka} &nbsp;·&nbsp; <span style="opacity: 0.7;">${verseRef}</span>
             </span>
             <div class="verse-actions">
-              <button class="btn-copy" onclick="copyVerseText('${verseRef}', ${v.shloka})" title="Copy Sanskrit text and meaning">
+              <button class="btn-copy" onclick="copyVerseText('${verseRef}', ${v.shloka}, this)" title="Copy Sanskrit text and meaning">
                 📋 Copy
               </button>
             </div>
@@ -1061,7 +1259,7 @@
     }
 
     // Copy to clipboard
-    window.copyVerseText = function(ref, shlokaNum) {
+    window.copyVerseText = function(ref, shlokaNum, btnEl) {
       const v = currentVerses.find(item => item.shloka === shlokaNum);
       if (!v) return;
 
@@ -1076,14 +1274,13 @@
       ].filter(Boolean).join("\n");
 
       navigator.clipboard.writeText(text).then(() => {
-        const btn = event.target;
+        const btn = btnEl || event.target;
         const originalText = btn.textContent;
         btn.textContent = "✓ Copied!";
         setTimeout(() => { btn.textContent = originalText; }, 1800);
       });
     };
 
-    // Helper: Escape HTML
     function escapeHtml(str) {
       if (!str) return "";
       return str
@@ -1094,33 +1291,55 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Navigation events
-    prevSargaBtn.addEventListener("click", () => {
+    // Navigation triggers
+    function navigatePrev() {
       if (currentSarga > 1) {
         selectKanda(currentKandaIndex, currentSarga - 1);
       } else if (currentKandaIndex > 0) {
         const prevK = KANDAS[currentKandaIndex - 1];
         selectKanda(currentKandaIndex - 1, prevK.sargas);
       }
-    });
+    }
 
-    nextSargaBtn.addEventListener("click", () => {
+    function navigateNext() {
       const k = KANDAS[currentKandaIndex];
       if (currentSarga < k.sargas) {
         selectKanda(currentKandaIndex, currentSarga + 1);
       } else if (currentKandaIndex < KANDAS.length - 1) {
         selectKanda(currentKandaIndex + 1, 1);
       }
-    });
+    }
+
+    prevSargaBtn.addEventListener("click", navigatePrev);
+    bottomPrevBtn.addEventListener("click", navigatePrev);
+    nextSargaBtn.addEventListener("click", navigateNext);
+    bottomNextBtn.addEventListener("click", navigateNext);
 
     sargaSelectEl.addEventListener("change", (e) => {
       selectKanda(currentKandaIndex, parseInt(e.target.value, 10));
     });
 
-    // Search filter
+    bottomSargaIndicator.addEventListener("click", () => {
+      sargaSelectEl.focus();
+    });
+
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Search input & clear button
     verseSearchInputEl.addEventListener("input", (e) => {
       currentSearchTerm = e.target.value.trim();
+      searchClearBtn.style.display = currentSearchTerm ? "block" : "none";
       renderVerses();
+    });
+
+    searchClearBtn.addEventListener("click", () => {
+      verseSearchInputEl.value = "";
+      currentSearchTerm = "";
+      searchClearBtn.style.display = "none";
+      renderVerses();
+      verseSearchInputEl.focus();
     });
 
     // View Toggles
@@ -1136,29 +1355,29 @@
     // Font size controls
     fontIncBtn.addEventListener("click", () => {
       if (devanagariFontSize < 2.5) {
-        devanagariFontSize += 0.15;
+        devanagariFontSize += 0.12;
         document.documentElement.style.setProperty("--devanagari-font-size", `${devanagariFontSize}rem`);
       }
     });
 
     fontDecBtn.addEventListener("click", () => {
       if (devanagariFontSize > 1.0) {
-        devanagariFontSize -= 0.15;
+        devanagariFontSize -= 0.12;
         document.documentElement.style.setProperty("--devanagari-font-size", `${devanagariFontSize}rem`);
       }
     });
 
-    // Keyboard navigation (Left / Right arrows)
+    // Keyboard navigation
     window.addEventListener("keydown", (e) => {
       if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
       if (e.key === "ArrowLeft") {
-        prevSargaBtn.click();
+        navigatePrev();
       } else if (e.key === "ArrowRight") {
-        nextSargaBtn.click();
+        navigateNext();
       }
     });
 
-    // URL Hash handling (#kanda=1&sarga=1)
+    // URL Hash routing
     function updateUrlHash() {
       history.replaceState(null, "", `#kanda=${currentKandaIndex + 1}&sarga=${currentSarga}`);
     }
@@ -1181,7 +1400,7 @@
       }
     }
 
-    // Theme Toggle (Light / Dark)
+    // Light / Dark Theme Toggle
     function initTheme() {
       const savedTheme = localStorage.getItem("vr_theme") || "light";
       setTheme(savedTheme);
@@ -1197,16 +1416,18 @@
         document.documentElement.setAttribute("data-theme", "dark");
         themeIcon.textContent = "☀️";
         themeText.textContent = "Light";
+        metaThemeColor.setAttribute("content", "#121013");
         localStorage.setItem("vr_theme", "dark");
       } else {
         document.documentElement.removeAttribute("data-theme");
         themeIcon.textContent = "🌙";
         themeText.textContent = "Dark";
+        metaThemeColor.setAttribute("content", "#b45309");
         localStorage.setItem("vr_theme", "light");
       }
     }
 
-    // Bootstrap
+    // Lifecycle
     window.addEventListener("DOMContentLoaded", () => {
       initTheme();
       parseUrlHash();
