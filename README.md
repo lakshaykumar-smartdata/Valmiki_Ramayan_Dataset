@@ -7,8 +7,8 @@ A structured, machine-readable JSON dataset of the complete Valmiki Ramayana, co
 ## 📌 Dataset Overview
 
 - **Total Verses / Records**: 23,291
-- **Kandas Included**: 7 (Bala Kanda, Ayodhya Kanda, Aranya Kanda, Kishkindha Kanda, Sundara Kanda, Yuddha Kanda, Uttara Kanda)
-- **Format**: JSON (`data/Valmiki_Ramayan_Shlokas.json`)
+- **Kandas Included**: 7 (Bala, Ayodhya, Aranya, Kishkindha, Sundara, Yuddha, Uttara)
+- **Format**: JSON (complete dataset + individual Kanda parts)
 - **Encoding**: UTF-8
 
 ---
@@ -18,15 +18,41 @@ A structured, machine-readable JSON dataset of the complete Valmiki Ramayana, co
 ```
 Valmiki_Ramayan_Dataset/
 ├── data/
-│   └── Valmiki_Ramayan_Shlokas.json   # Primary JSON dataset (~29.8 MB)
+│   ├── Valmiki_Ramayan_Shlokas.json   # Full dataset (23,291 shlokas, ~29.8 MB)
+│   └── kandas/                        # Dataset partitioned by Kanda
+│       ├── 01_Bala_Kanda.json         # 2,217 shlokas (77 sargas, ~2.66 MB)
+│       ├── 02_Ayodhya_Kanda.json      # 4,262 shlokas (119 sargas, ~5.08 MB)
+│       ├── 03_Aranya_Kanda.json       # 2,439 shlokas (75 sargas, ~2.82 MB)
+│       ├── 04_Kishkindha_Kanda.json   # 2,445 shlokas (67 sargas, ~3.05 MB)
+│       ├── 05_Sundara_Kanda.json      # 2,772 shlokas (68 sargas, ~3.54 MB)
+│       ├── 06_Yuddha_Kanda.json       # 5,693 shlokas (131 sargas, ~6.82 MB)
+│       └── 07_Uttara_Kanda.json       # 3,463 shlokas (111 sargas, ~3.63 MB)
+├── split_by_kanda.py                  # Python script to split JSON by Kanda
+├── requirements.txt                   # Dependencies (pandas)
+├── .gitignore                         # Git ignore rules
 └── README.md                          # Documentation and schema guide
 ```
 
 ---
 
+## 📊 Kanda Breakdown
+
+| # | Kanda | Sargas | Shlokas | File |
+|---|---|---|---|---|
+| 1 | **Bala Kanda** | 77 | 2,217 | [`01_Bala_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/01_Bala_Kanda.json) |
+| 2 | **Ayodhya Kanda** | 119 | 4,262 | [`02_Ayodhya_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/02_Ayodhya_Kanda.json) |
+| 3 | **Aranya Kanda** | 75 | 2,439 | [`03_Aranya_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/03_Aranya_Kanda.json) |
+| 4 | **Kishkindha Kanda** | 67 | 2,445 | [`04_Kishkindha_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/04_Kishkindha_Kanda.json) |
+| 5 | **Sundara Kanda** | 68 | 2,772 | [`05_Sundara_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/05_Sundara_Kanda.json) |
+| 6 | **Yuddha Kanda** | 131 | 5,693 | [`06_Yuddha_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/06_Yuddha_Kanda.json) |
+| 7 | **Uttara Kanda** | 111 | 3,463 | [`07_Uttara_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/07_Uttara_Kanda.json) |
+| | **Total** | **648** | **23,291** | |
+
+---
+
 ## 🔍 Data Schema & Sample
 
-Each record in `Valmiki_Ramayan_Shlokas.json` contains the following fields:
+Each record contains the following fields:
 
 | Field | Type | Description |
 |---|---|---|
@@ -56,23 +82,21 @@ Each record in `Valmiki_Ramayan_Shlokas.json` contains the following fields:
 
 ---
 
-## 💡 Usage Example (Python)
+## 💡 Usage Example (Python & pandas)
 
+### Loading a Specific Kanda:
 ```python
-import json
+import pandas as pd
 
-# Load dataset
-with open('data/Valmiki_Ramayan_Shlokas.json', 'r', encoding='utf-8') as f:
-    shlokas = json.load(f)
+# Load Sundara Kanda
+df_sundara = pd.read_json('data/kandas/05_Sundara_Kanda.json')
+print(f"Loaded {len(df_sundara)} shlokas from Sundara Kanda")
+print(df_sundara[['sarga', 'shloka', 'shloka_text', 'explanation']].head())
+```
 
-print(f"Total shlokas loaded: {len(shlokas)}")
-
-# Access first shloka
-first_shloka = shlokas[0]
-print(f"Kanda: {first_shloka['kanda']}")
-print(f"Verse: {first_shloka['sarga']}.{first_shloka['shloka']}")
-print(f"Text: {first_shloka['shloka_text']}")
-print(f"Translation: {first_shloka['explanation']}")
+### Re-running the Split Script:
+```bash
+python split_by_kanda.py
 ```
 
 ---
