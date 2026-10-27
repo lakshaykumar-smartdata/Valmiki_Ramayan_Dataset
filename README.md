@@ -8,51 +8,67 @@ A structured, machine-readable JSON dataset of the complete Valmiki Ramayana, co
 
 - **Total Verses / Records**: 23,291
 - **Kandas Included**: 7 (Bala, Ayodhya, Aranya, Kishkindha, Sundara, Yuddha, Uttara)
-- **Format**: JSON (complete dataset + individual Kanda parts)
-- **Encoding**: UTF-8
+- **Total Sargas (Chapters)**: 648
+- **Granularity Levels**:
+  1. **Full Epic**: Single monolithic JSON dataset (~29.8 MB)
+  2. **By Kanda**: 7 individual Kanda JSON files
+  3. **By Sarga**: 648 individual Sarga JSON files organized into Kanda folders
+- **Encoding**: UTF-8 (Devanagari script + IAST transliteration + English)
 
 ---
 
-## 📂 Repository Structure
+## 📂 Repository Folder Structure
 
 ```
 Valmiki_Ramayan_Dataset/
 ├── data/
-│   ├── Valmiki_Ramayan_Shlokas.json   # Full dataset (23,291 shlokas, ~29.8 MB)
-│   └── kandas/                        # Dataset partitioned by Kanda
-│       ├── 01_Bala_Kanda.json         # 2,217 shlokas (77 sargas, ~2.66 MB)
-│       ├── 02_Ayodhya_Kanda.json      # 4,262 shlokas (119 sargas, ~5.08 MB)
-│       ├── 03_Aranya_Kanda.json       # 2,439 shlokas (75 sargas, ~2.82 MB)
-│       ├── 04_Kishkindha_Kanda.json   # 2,445 shlokas (67 sargas, ~3.05 MB)
-│       ├── 05_Sundara_Kanda.json      # 2,772 shlokas (68 sargas, ~3.54 MB)
-│       ├── 06_Yuddha_Kanda.json       # 5,693 shlokas (131 sargas, ~6.82 MB)
-│       └── 07_Uttara_Kanda.json       # 3,463 shlokas (111 sargas, ~3.63 MB)
-├── split_by_kanda.py                  # Python script to split JSON by Kanda
-├── requirements.txt                   # Dependencies (pandas)
-├── .gitignore                         # Git ignore rules
-└── README.md                          # Documentation and schema guide
+│   ├── Valmiki_Ramayan_Shlokas.json    # Complete dataset (23,291 shlokas, ~29.8 MB)
+│   │
+│   ├── kandas/                         # Level 1: Partitioned by Kanda (7 files)
+│   │   ├── 01_Bala_Kanda.json          # 2,217 shlokas (77 sargas, ~2.66 MB)
+│   │   ├── 02_Ayodhya_Kanda.json       # 4,262 shlokas (119 sargas, ~5.08 MB)
+│   │   ├── 03_Aranya_Kanda.json        # 2,439 shlokas (75 sargas, ~2.82 MB)
+│   │   ├── 04_Kishkindha_Kanda.json    # 2,445 shlokas (67 sargas, ~3.05 MB)
+│   │   ├── 05_Sundara_Kanda.json       # 2,772 shlokas (68 sargas, ~3.54 MB)
+│   │   ├── 06_Yuddha_Kanda.json        # 5,693 shlokas (131 sargas, ~6.82 MB)
+│   │   └── 07_Uttara_Kanda.json        # 3,463 shlokas (111 sargas, ~3.63 MB)
+│   │
+│   └── sargas/                         # Level 2: Partitioned by Sarga (648 files)
+│       ├── 01_Bala_Kanda/              # sarga_001.json ... sarga_077.json (77 files)
+│       ├── 02_Ayodhya_Kanda/           # sarga_001.json ... sarga_119.json (119 files)
+│       ├── 03_Aranya_Kanda/            # sarga_001.json ... sarga_075.json (75 files)
+│       ├── 04_Kishkindha_Kanda/        # sarga_001.json ... sarga_067.json (67 files)
+│       ├── 05_Sundara_Kanda/           # sarga_001.json ... sarga_068.json (68 files)
+│       ├── 06_Yuddha_Kanda/            # sarga_001.json ... sarga_131.json (131 files)
+│       └── 07_Uttara_Kanda/            # sarga_001.json ... sarga_111.json (111 files)
+│
+├── split_by_kanda.py                   # Splits dataset into 7 Kanda files
+├── split_by_sarga.py                   # Splits dataset into 648 Sarga files
+├── requirements.txt                    # Python dependencies (pandas)
+├── .gitignore                          # Git ignore rules
+└── README.md                           # Documentation and schema guide
 ```
 
 ---
 
-## 📊 Kanda Breakdown
+## 📊 Kanda & Sarga Breakdown
 
-| # | Kanda | Sargas | Shlokas | File |
-|---|---|---|---|---|
-| 1 | **Bala Kanda** | 77 | 2,217 | [`01_Bala_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/01_Bala_Kanda.json) |
-| 2 | **Ayodhya Kanda** | 119 | 4,262 | [`02_Ayodhya_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/02_Ayodhya_Kanda.json) |
-| 3 | **Aranya Kanda** | 75 | 2,439 | [`03_Aranya_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/03_Aranya_Kanda.json) |
-| 4 | **Kishkindha Kanda** | 67 | 2,445 | [`04_Kishkindha_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/04_Kishkindha_Kanda.json) |
-| 5 | **Sundara Kanda** | 68 | 2,772 | [`05_Sundara_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/05_Sundara_Kanda.json) |
-| 6 | **Yuddha Kanda** | 131 | 5,693 | [`06_Yuddha_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/06_Yuddha_Kanda.json) |
-| 7 | **Uttara Kanda** | 111 | 3,463 | [`07_Uttara_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/07_Uttara_Kanda.json) |
-| | **Total** | **648** | **23,291** | |
+| # | Kanda | Sargas | Shlokas | Kanda File | Sarga Directory |
+|---|---|---|---|---|---|
+| 1 | **Bala Kanda** | 77 | 2,217 | [`01_Bala_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/01_Bala_Kanda.json) | [`01_Bala_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/01_Bala_Kanda) |
+| 2 | **Ayodhya Kanda** | 119 | 4,262 | [`02_Ayodhya_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/02_Ayodhya_Kanda.json) | [`02_Ayodhya_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/02_Ayodhya_Kanda) |
+| 3 | **Aranya Kanda** | 75 | 2,439 | [`03_Aranya_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/03_Aranya_Kanda.json) | [`03_Aranya_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/03_Aranya_Kanda) |
+| 4 | **Kishkindha Kanda** | 67 | 2,445 | [`04_Kishkindha_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/04_Kishkindha_Kanda.json) | [`04_Kishkindha_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/04_Kishkindha_Kanda) |
+| 5 | **Sundara Kanda** | 68 | 2,772 | [`05_Sundara_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/05_Sundara_Kanda.json) | [`05_Sundara_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/05_Sundara_Kanda) |
+| 6 | **Yuddha Kanda** | 131 | 5,693 | [`06_Yuddha_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/06_Yuddha_Kanda.json) | [`06_Yuddha_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/06_Yuddha_Kanda) |
+| 7 | **Uttara Kanda** | 111 | 3,463 | [`07_Uttara_Kanda.json`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/kandas/07_Uttara_Kanda.json) | [`07_Uttara_Kanda/`](file:///d:/DayUsers/LakshayKumar/Projects/POCs/Valmiki_Ramayan_Dataset/data/sargas/07_Uttara_Kanda) |
+| | **Total** | **648** | **23,291** | | |
 
 ---
 
 ## 🔍 Data Schema & Sample
 
-Each record contains the following fields:
+Each record in every JSON file contains the following structure:
 
 | Field | Type | Description |
 |---|---|---|
@@ -82,21 +98,36 @@ Each record contains the following fields:
 
 ---
 
-## 💡 Usage Example (Python & pandas)
+## 💡 Usage Examples (Python & pandas)
 
-### Loading a Specific Kanda:
+### 1. Load an Individual Sarga
+```python
+import json
+
+# Load Bala Kanda, Sarga 1
+with open('data/sargas/01_Bala_Kanda/sarga_001.json', 'r', encoding='utf-8') as f:
+    sarga_1 = json.load(f)
+
+print(f"Verses in Sarga 1: {len(sarga_1)}")
+print(f"First verse: {sarga_1[0]['shloka_text']}")
+```
+
+### 2. Load an Entire Kanda with pandas
 ```python
 import pandas as pd
 
 # Load Sundara Kanda
 df_sundara = pd.read_json('data/kandas/05_Sundara_Kanda.json')
-print(f"Loaded {len(df_sundara)} shlokas from Sundara Kanda")
-print(df_sundara[['sarga', 'shloka', 'shloka_text', 'explanation']].head())
+print(f"Sundara Kanda verses: {len(df_sundara)}")
 ```
 
-### Re-running the Split Script:
+### 3. Re-generate Partitions
 ```bash
+# Split into 7 Kanda files:
 python split_by_kanda.py
+
+# Split into 648 Sarga files:
+python split_by_sarga.py
 ```
 
 ---
