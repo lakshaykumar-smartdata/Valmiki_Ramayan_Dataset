@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>वाल्मीकि रामायण | Valmiki Ramayana Reader</title>
+  <meta name="description" content="Explore and read the complete Valmiki Ramayana sarga-by-sarga with Sanskrit shlokas, transliteration, word-by-word meanings, and English explanations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-devanagari: 'Noto Serif Devanagari', 'Martel', 'Siddhanta', serif;
+      --font-title: 'Cinzel', serif;
+
+      /* Light Theme (Vedic warm theme) */
+      --bg-base: #fdfaf6;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-highlight: #fff8ee;
+      --bg-secondary: #f4ece1;
+      --border-color: #e8dccb;
+      --border-focus: #c26118;
+      --primary: #b45309;
+      --primary-hover: #92400e;
+      --primary-light: #fef3c7;
+      --primary-glow: rgba(180, 83, 9, 0.15);
+      --accent: #dc2626;
+      --text-main: #231f20;
+      --text-muted: #57534e;
+      --text-subtle: #78716c;
+      --shloka-text: #872808;
+      --tag-bg: #fef3c7;
+      --tag-text: #92400e;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #121013;
+      --bg-surface: #1a171d;
+      --bg-card: #1f1b22;
+      --bg-highlight: #27212c;
+      --bg-secondary: #2c2533;
+      --border-color: #3b3245;
+      --border-focus: #f59e0b;
+      --primary: #f59e0b;
+      --primary-hover: #fbbf24;
+      --primary-light: #352516;
+      --primary-glow: rgba(245, 158, 11, 0.2);
+      --accent: #f87171;
+      --text-main: #f5f5f4;
+      --text-muted: #a8a29e;
+      --text-subtle: #78716c;
+      --shloka-text: #fcd34d;
+      --tag-bg: #352516;
+      --tag-text: #fbbf24;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      font-size: 1.85rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px var(--primary-glow));
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-title);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+    }
+
+    .brand-text .subtext {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .btn-icon {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-icon:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Kanda Tabs Navigation */
+    .kanda-nav-wrapper {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.4rem 0;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .kanda-nav-wrapper::-webkit-scrollbar {
+      height: 4px;
+    }
+    .kanda-nav-wrapper::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 2px;
+    }
+
+    .kanda-tabs {
+      display: flex;
+      gap: 0.5rem;
+      white-space: nowrap;
+      padding: 0.2rem 0;
+    }
+
+    .kanda-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .kanda-tab:hover {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+    }
+
+    .kanda-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    .kanda-tab .count-badge {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .kanda-tab.active .count-badge {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Main Toolbar */
+    .toolbar-section {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.85rem 0;
+    }
+
+    .toolbar-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    .sarga-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-nav {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .sarga-select-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sarga-select-wrap label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    select.sarga-dropdown {
+      background: var(--bg-base);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      min-width: 140px;
+    }
+
+    select.sarga-dropdown:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .view-toggles {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .toggle-chip {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.4rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-chip:hover {
+      color: var(--text-main);
+    }
+
+    .toggle-chip.active {
+      background: var(--tag-bg);
+      border-color: var(--primary);
+      color: var(--tag-text);
+    }
+
+    .font-size-ctrls {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .font-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .font-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Search & Stats Bar */
+    .filter-bar {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 380px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.75rem 0.5rem 2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.65rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    .sarga-summary-pill {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Content Area */
+    main {
+      flex: 1;
+      padding: 1.5rem 0 3rem;
+    }
+
+    .sarga-header-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.35rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      border-left: 5px solid var(--primary);
+    }
+
+    .sarga-title-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .sarga-title {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .sarga-badge {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 12px;
+    }
+
+    .sarga-comment {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      background: var(--bg-highlight);
+      border-left: 3px solid var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-top: 0.75rem;
+      line-height: 1.5;
+    }
+
+    /* Verse Cards */
+    .verses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .verse-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+
+    .verse-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .verse-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .verse-num {
+      font-family: var(--font-title);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .verse-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-subtle);
+      border-radius: 6px;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-copy:hover {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+    }
+
+    /* Shloka Text */
+    .shloka-box {
+      background: var(--bg-highlight);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .shloka-sanskrit {
+      font-family: var(--font-devanagari);
+      font-size: var(--devanagari-font-size, 1.45rem);
+      font-weight: 600;
+      color: var(--shloka-text);
+      line-height: 1.8;
+      word-spacing: 0.1em;
+      letter-spacing: 0.01em;
+      user-select: text;
+    }
+
+    /* Transliteration */
+    .verse-transliteration {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+      margin-bottom: 0.9rem;
+      padding: 0 0.25rem;
+    }
+
+    /* Word Translation */
+    .verse-translation-section {
+      margin-bottom: 0.9rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .verse-translation-section .label {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    /* Explanation */
+    .verse-explanation-section {
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text-main);
+      padding: 0.25rem 0.25rem 0;
+    }
+
+    .verse-explanation-section .label {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    /* Comments Section */
+    .verse-comments-section {
+      margin-top: 0.85rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--primary-light);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--primary-hover);
+    }
+
+    /* Loading Spinner */
+    .loading-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Empty state */
+    .empty-state {
+      background: var(--bg-card);
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-color);
+      padding: 1.5rem 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .toolbar-grid {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .sarga-controls {
+        justify-content: space-between;
+      }
+      .search-input-wrap {
+        max-width: 100%;
+      }
+      .shloka-sanskrit {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-content">
+      <a href="#" class="brand" onclick="window.location.reload(); return false;">
+        <span class="brand-icon">🏹</span>
+        <div class="brand-text">
+          <h1>वाल्मीकि रामायण</h1>
+          <div class="subtext">Valmiki Ramayana • Sarga Explorer</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="btn-icon" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
+        </button>
+        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset" target="_blank" rel="noopener" class="btn-icon">
+          <span>⭐</span> GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Kanda Tabs -->
+  <div class="kanda-nav-wrapper">
+    <div class="container">
+      <div id="kandaTabs" class="kanda-tabs" role="tablist">
+        <!-- Dynamically generated Kanda tabs -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Sarga Navigation & View Controls -->
+  <section class="toolbar-section">
+    <div class="container">
+      <div class="toolbar-grid">
+        <!-- Sarga Prev/Next/Select -->
+        <div class="sarga-controls">
+          <button id="prevSargaBtn" class="btn-nav" title="Previous Sarga (Left Arrow)">
+            ◀ Prev
+          </button>
+          
+          <div class="sarga-select-wrap">
+            <label for="sargaSelect">Sarga:</label>
+            <select id="sargaSelect" class="sarga-dropdown">
+              <!-- Sarga options -->
+            </select>
+          </div>
+
+          <button id="nextSargaBtn" class="btn-nav" title="Next Sarga (Right Arrow)">
+            Next ▶
+          </button>
+        </div>
+
+        <!-- View Display Toggles & Font Resizer -->
+        <div class="view-toggles">
+          <span class="toggle-chip active" id="toggleTranslit" data-target="transliteration">
+            Transliteration
+          </span>
+          <span class="toggle-chip active" id="toggleTranslation" data-target="translation">
+            Word Meanings
+          </span>
+          <span class="toggle-chip active" id="toggleExplanation" data-target="explanation">
+            Explanation
+          </span>
+          
+          <div class="font-size-ctrls" title="Adjust Sanskrit Font Size">
+            <button class="font-btn" id="fontDecBtn" title="Decrease font size">A-</button>
+            <button class="font-btn" id="fontIncBtn" title="Increase font size">A+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Status Bar -->
+      <div class="filter-bar">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="verseSearchInput" class="search-input" placeholder="Search verses in this sarga...">
+        </div>
+        <div id="sargaStatsText" class="sarga-summary-pill">
+          Loading verses...
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Sarga Title / Summary Card -->
+    <div id="sargaHeaderCard" class="sarga-header-card" style="display: none;">
+      <div class="sarga-title-line">
+        <h2 id="sargaTitle" class="sarga-title">Bala Kanda — Sarga 1</h2>
+        <span id="sargaBadge" class="sarga-badge">100 Verses</span>
+      </div>
+      <div id="sargaCommentText" class="sarga-comment" style="display: none;"></div>
+    </div>
+
+    <!-- Verses Container -->
+    <div id="versesList" class="verses-list">
+      <!-- Loading State -->
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading Valmiki Ramayana shlokas...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <strong>Valmiki Ramayana Dataset</strong> • 7 Kandas • 648 Sargas • 23,291 Shlokas
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset/tree/main/data" target="_blank" rel="noopener">Browse Data</a>
+        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset/blob/main/README.md" target="_blank" rel="noopener">Documentation</a>
+        <a href="https://github.com/lakshaykumar-smartdata/Valmiki_Ramayan_Dataset" target="_blank" rel="noopener">GitHub Repo</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Kandas metadata
+    const KANDAS = [
+      { order: 1, name: "Bala Kanda", folder: "01_Bala_Kanda", sargas: 77, verses: 2217 },
+      { order: 2, name: "Ayodhya Kanda", folder: "02_Ayodhya_Kanda", sargas: 119, verses: 4262 },
+      { order: 3, name: "Aranya Kanda", folder: "03_Aranya_Kanda", sargas: 75, verses: 2439 },
+      { order: 4, name: "Kishkindha Kanda", folder: "04_Kishkindha_Kanda", sargas: 67, verses: 2445 },
+      { order: 5, name: "Sundara Kanda", folder: "05_Sundara_Kanda", sargas: 68, verses: 2772 },
+      { order: 6, name: "Yuddha Kanda", folder: "06_Yuddha_Kanda", sargas: 131, verses: 5693 },
+      { order: 7, name: "Uttara Kanda", folder: "07_Uttara_Kanda", sargas: 111, verses: 3463 }
+    ];
+
+    // State
+    let currentKandaIndex = 0; // 0-based index in KANDAS
+    let currentSarga = 1;     // 1-based sarga number
+    let currentVerses = [];
+    let currentSearchTerm = "";
+    let devanagariFontSize = 1.45; // rem
+
+    // Visibility toggles
+    const viewSettings = {
+      transliteration: true,
+      translation: true,
+      explanation: true
+    };
+
+    // DOM Elements
+    const kandaTabsEl = document.getElementById("kandaTabs");
+    const sargaSelectEl = document.getElementById("sargaSelect");
+    const prevSargaBtn = document.getElementById("prevSargaBtn");
+    const nextSargaBtn = document.getElementById("nextSargaBtn");
+    const versesListEl = document.getElementById("versesList");
+    const sargaHeaderCardEl = document.getElementById("sargaHeaderCard");
+    const sargaTitleEl = document.getElementById("sargaTitle");
+    const sargaBadgeEl = document.getElementById("sargaBadge");
+    const sargaCommentTextEl = document.getElementById("sargaCommentText");
+    const sargaStatsTextEl = document.getElementById("sargaStatsText");
+    const verseSearchInputEl = document.getElementById("verseSearchInput");
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeIcon = document.getElementById("themeIcon");
+    const themeText = document.getElementById("themeText");
+    const fontIncBtn = document.getElementById("fontIncBtn");
+    const fontDecBtn = document.getElementById("fontDecBtn");
+
+    // Initialize Kanda tabs
+    function initKandaTabs() {
+      kandaTabsEl.innerHTML = "";
+      KANDAS.forEach((k, idx) => {
+        const btn = document.createElement("button");
+        btn.className = `kanda-tab ${idx === currentKandaIndex ? "active" : ""}`;
+        btn.setAttribute("role", "tab");
+        btn.innerHTML = `
+          <span>${k.name}</span>
+          <span class="count-badge">${k.sargas} sargas</span>
+        `;
+        btn.addEventListener("click", () => {
+          if (currentKandaIndex !== idx) {
+            selectKanda(idx, 1);
+          }
+        });
+        kandaTabsEl.appendChild(btn);
+      });
+    }
+
+    // Populate Sarga Dropdown
+    function populateSargaDropdown() {
+      const k = KANDAS[currentKandaIndex];
+      sargaSelectEl.innerHTML = "";
+      for (let s = 1; s <= k.sargas; s++) {
+        const opt = document.createElement("option");
+        opt.value = s;
+        opt.textContent = `Sarga ${s} (of ${k.sargas})`;
+        if (s === currentSarga) opt.selected = true;
+        sargaSelectEl.appendChild(opt);
+      }
+      updateNavButtons();
+    }
+
+    function updateNavButtons() {
+      const k = KANDAS[currentKandaIndex];
+      prevSargaBtn.disabled = (currentKandaIndex === 0 && currentSarga === 1);
+      nextSargaBtn.disabled = (currentKandaIndex === KANDAS.length - 1 && currentSarga === k.sargas);
+    }
+
+    // Select Kanda and Sarga
+    function selectKanda(kandaIdx, sargaNum) {
+      currentKandaIndex = kandaIdx;
+      currentSarga = sargaNum;
+
+      // Update Tab Styles
+      const tabs = kandaTabsEl.querySelectorAll(".kanda-tab");
+      tabs.forEach((tab, idx) => {
+        tab.classList.toggle("active", idx === currentKandaIndex);
+      });
+
+      populateSargaDropdown();
+      loadSargaData();
+      updateUrlHash();
+    }
+
+    // Load Sarga JSON
+    async function loadSargaData() {
+      const k = KANDAS[currentKandaIndex];
+      const sargaPadded = String(currentSarga).padStart(3, "0");
+      const url = `./data/sargas/${k.folder}/sarga_${sargaPadded}.json`;
+
+      versesListEl.innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading ${k.name}, Sarga ${currentSarga}...</p>
+        </div>
+      `;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error(`HTTP Error ${res.status}: Failed to load ${url}`);
+        }
+        const data = await res.json();
+        currentVerses = data;
+        renderSargaHeader();
+        renderVerses();
+      } catch (err) {
+        console.error("Error loading sarga:", err);
+        versesListEl.innerHTML = `
+          <div class="empty-state">
+            <h3 style="color: var(--accent); margin-bottom: 0.5rem;">⚠️ Failed to load Sarga</h3>
+            <p>${err.message}</p>
+            <p style="margin-top: 1rem;">
+              <button class="btn-nav" onclick="loadSargaData()">🔄 Retry</button>
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // Render Sarga Header / Summary
+    function renderSargaHeader() {
+      const k = KANDAS[currentKandaIndex];
+      sargaHeaderCardEl.style.display = "block";
+      sargaTitleEl.textContent = `${k.name} — Sarga ${currentSarga}`;
+      sargaBadgeEl.textContent = `${currentVerses.length} Shlokas`;
+
+      // Check if first shloka has sarga opener commentary
+      const firstWithComment = currentVerses.find(v => v.comments && v.comments.trim());
+      if (firstWithComment && firstWithComment.comments) {
+        sargaCommentTextEl.style.display = "block";
+        sargaCommentTextEl.innerHTML = `<strong>📖 Summary:</strong> ${escapeHtml(firstWithComment.comments)}`;
+      } else {
+        sargaCommentTextEl.style.display = "none";
+      }
+
+      updateStatsBar(currentVerses.length);
+    }
+
+    function updateStatsBar(displayedCount) {
+      const k = KANDAS[currentKandaIndex];
+      if (currentSearchTerm) {
+        sargaStatsTextEl.textContent = `Showing ${displayedCount} of ${currentVerses.length} verses matching "${currentSearchTerm}"`;
+      } else {
+        sargaStatsTextEl.textContent = `${k.name} • Sarga ${currentSarga} of ${k.sargas} • ${currentVerses.length} Verses`;
+      }
+    }
+
+    // Render Verses
+    function renderVerses() {
+      const filtered = currentVerses.filter(v => {
+        if (!currentSearchTerm) return true;
+        const q = currentSearchTerm.toLowerCase();
+        return (
+          (v.shloka_text && v.shloka_text.toLowerCase().includes(q)) ||
+          (v.transliteration && v.transliteration.toLowerCase().includes(q)) ||
+          (v.translation && v.translation.toLowerCase().includes(q)) ||
+          (v.explanation && v.explanation.toLowerCase().includes(q)) ||
+          String(v.shloka) === q
+        );
+      });
+
+      updateStatsBar(filtered.length);
+
+      if (filtered.length === 0) {
+        versesListEl.innerHTML = `
+          <div class="empty-state">
+            <h3>No matching verses found</h3>
+            <p>Try refining your search keyword or clearing the search field.</p>
+          </div>
+        `;
+        return;
+      }
+
+      versesListEl.innerHTML = filtered.map(v => createVerseCardHtml(v)).join("");
+    }
+
+    // Generate Card HTML
+    function createVerseCardHtml(v) {
+      const verseRef = `${currentKandaIndex + 1}.${v.sarga}.${v.shloka}`;
+      const hasComments = v.comments && v.comments.trim();
+
+      return `
+        <article class="verse-card" id="verse-${v.shloka}">
+          <div class="verse-card-header">
+            <span class="verse-num">
+              <span>🕉️</span> Shloka ${v.shloka} &nbsp;·&nbsp; <span style="opacity: 0.7;">${verseRef}</span>
+            </span>
+            <div class="verse-actions">
+              <button class="btn-copy" onclick="copyVerseText('${verseRef}', ${v.shloka})" title="Copy Sanskrit text and meaning">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Sanskrit Original -->
+          <div class="shloka-box">
+            <div class="shloka-sanskrit">${escapeHtml(v.shloka_text || "")}</div>
+          </div>
+
+          <!-- Transliteration -->
+          ${viewSettings.transliteration && v.transliteration ? `
+            <div class="verse-transliteration">
+              ${escapeHtml(v.transliteration)}
+            </div>
+          ` : ""}
+
+          <!-- Word-by-word Translation -->
+          ${viewSettings.translation && v.translation ? `
+            <div class="verse-translation-section">
+              <span class="label">Word-by-Word Translation</span>
+              <div>${escapeHtml(v.translation)}</div>
+            </div>
+          ` : ""}
+
+          <!-- English Explanation -->
+          ${viewSettings.explanation && v.explanation ? `
+            <div class="verse-explanation-section">
+              <span class="label">Explanation</span>
+              <p>${escapeHtml(v.explanation)}</p>
+            </div>
+          ` : ""}
+
+          <!-- Commentary if separate -->
+          ${hasComments ? `
+            <div class="verse-comments-section">
+              <strong>Context / Note:</strong> ${escapeHtml(v.comments)}
+            </div>
+          ` : ""}
+        </article>
+      `;
+    }
+
+    // Copy to clipboard
+    window.copyVerseText = function(ref, shlokaNum) {
+      const v = currentVerses.find(item => item.shloka === shlokaNum);
+      if (!v) return;
+
+      const text = [
+        `Valmiki Ramayana - ${v.kanda}, Sarga ${v.sarga}, Shloka ${v.shloka} (${ref})`,
+        "",
+        v.shloka_text,
+        "",
+        v.transliteration ? `IAST: ${v.transliteration}` : "",
+        v.translation ? `Word meanings: ${v.translation}` : "",
+        v.explanation ? `Explanation: ${v.explanation}` : ""
+      ].filter(Boolean).join("\n");
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => { btn.textContent = originalText; }, 1800);
+      });
+    };
+
+    // Helper: Escape HTML
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Navigation events
+    prevSargaBtn.addEventListener("click", () => {
+      if (currentSarga > 1) {
+        selectKanda(currentKandaIndex, currentSarga - 1);
+      } else if (currentKandaIndex > 0) {
+        const prevK = KANDAS[currentKandaIndex - 1];
+        selectKanda(currentKandaIndex - 1, prevK.sargas);
+      }
+    });
+
+    nextSargaBtn.addEventListener("click", () => {
+      const k = KANDAS[currentKandaIndex];
+      if (currentSarga < k.sargas) {
+        selectKanda(currentKandaIndex, currentSarga + 1);
+      } else if (currentKandaIndex < KANDAS.length - 1) {
+        selectKanda(currentKandaIndex + 1, 1);
+      }
+    });
+
+    sargaSelectEl.addEventListener("change", (e) => {
+      selectKanda(currentKandaIndex, parseInt(e.target.value, 10));
+    });
+
+    // Search filter
+    verseSearchInputEl.addEventListener("input", (e) => {
+      currentSearchTerm = e.target.value.trim();
+      renderVerses();
+    });
+
+    // View Toggles
+    document.querySelectorAll(".toggle-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const target = chip.dataset.target;
+        viewSettings[target] = !viewSettings[target];
+        chip.classList.toggle("active", viewSettings[target]);
+        renderVerses();
+      });
+    });
+
+    // Font size controls
+    fontIncBtn.addEventListener("click", () => {
+      if (devanagariFontSize < 2.5) {
+        devanagariFontSize += 0.15;
+        document.documentElement.style.setProperty("--devanagari-font-size", `${devanagariFontSize}rem`);
+      }
+    });
+
+    fontDecBtn.addEventListener("click", () => {
+      if (devanagariFontSize > 1.0) {
+        devanagariFontSize -= 0.15;
+        document.documentElement.style.setProperty("--devanagari-font-size", `${devanagariFontSize}rem`);
+      }
+    });
+
+    // Keyboard navigation (Left / Right arrows)
+    window.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+      if (e.key === "ArrowLeft") {
+        prevSargaBtn.click();
+      } else if (e.key === "ArrowRight") {
+        nextSargaBtn.click();
+      }
+    });
+
+    // URL Hash handling (#kanda=1&sarga=1)
+    function updateUrlHash() {
+      history.replaceState(null, "", `#kanda=${currentKandaIndex + 1}&sarga=${currentSarga}`);
+    }
+
+    function parseUrlHash() {
+      const hash = window.location.hash.substring(1);
+      if (!hash) return;
+      const params = new URLSearchParams(hash);
+      const kVal = parseInt(params.get("kanda"), 10);
+      const sVal = parseInt(params.get("sarga"), 10);
+
+      if (!isNaN(kVal) && kVal >= 1 && kVal <= KANDAS.length) {
+        currentKandaIndex = kVal - 1;
+        const maxSargas = KANDAS[currentKandaIndex].sargas;
+        if (!isNaN(sVal) && sVal >= 1 && sVal <= maxSargas) {
+          currentSarga = sVal;
+        } else {
+          currentSarga = 1;
+        }
+      }
+    }
+
+    // Theme Toggle (Light / Dark)
+    function initTheme() {
+      const savedTheme = localStorage.getItem("vr_theme") || "light";
+      setTheme(savedTheme);
+
+      themeToggleBtn.addEventListener("click", () => {
+        const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        setTheme(isDark ? "light" : "dark");
+      });
+    }
+
+    function setTheme(theme) {
+      if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeIcon.textContent = "☀️";
+        themeText.textContent = "Light";
+        localStorage.setItem("vr_theme", "dark");
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+        themeIcon.textContent = "🌙";
+        themeText.textContent = "Dark";
+        localStorage.setItem("vr_theme", "light");
+      }
+    }
+
+    // Bootstrap
+    window.addEventListener("DOMContentLoaded", () => {
+      initTheme();
+      parseUrlHash();
+      initKandaTabs();
+      populateSargaDropdown();
+      loadSargaData();
+    });
+
+    window.addEventListener("hashchange", () => {
+      parseUrlHash();
+      initKandaTabs();
+      populateSargaDropdown();
+      loadSargaData();
+    });
+  </script>
+</body>
+</html>

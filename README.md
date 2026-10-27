@@ -15,12 +15,16 @@ A structured, machine-readable JSON dataset of the complete Valmiki Ramayana, co
   3. **By Sarga**: 648 individual Sarga JSON files organized into Kanda folders
 - **Encoding**: UTF-8 (Devanagari script + IAST transliteration + English)
 
+🌐 **Live Web Reader**: [https://lakshaykumar-smartdata.github.io/Valmiki_Ramayan_Dataset/](https://lakshaykumar-smartdata.github.io/Valmiki_Ramayan_Dataset/)
+
 ---
 
 ## 📂 Repository Folder Structure
 
 ```
 Valmiki_Ramayan_Dataset/
+├── index.html                          # Single-page Web UI reader (GitHub Pages)
+├── .nojekyll                           # Config to bypass Jekyll for GitHub Pages
 ├── data/
 │   ├── Valmiki_Ramayan_Shlokas.json    # Complete dataset (23,291 shlokas, ~29.8 MB)
 │   │
